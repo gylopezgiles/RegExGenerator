@@ -62,5 +62,8 @@ public class RegExGeneratorTest {
         assertTrue(validate("[abc]+", 1));
     }
 
-    // TODO: Add more tests!!!
+    @Test
+    public void testAllCases(){
+        assertTrue(validate(".[uhjkk]98kl0\\$7?#*k+", 3));
+    }
 }

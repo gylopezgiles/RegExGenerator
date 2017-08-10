@@ -1,5 +1,7 @@
 package ar.fiuba.tdd.template.tp0;
 
+import generators.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class RegExAnalizer {
     }
 
     public List<String> analize(String regEx){
-        StringGeneratorInterface stringGenerator = new StringGenerator();
+        RegExGeneratorStrategy regExGenerator;
         List<String> result = new ArrayList<String>();
         String original = "";
         int lenght = regEx.length();
@@ -21,32 +23,33 @@ public class RegExAnalizer {
             String character = new StringBuilder().append(regEx.charAt(i)).toString();
             switch (character){
                 case ".":
-                    result.add(stringGenerator.generateRandomCharacter());
+                    original = "";
+                    regExGenerator = new GenerateRandomCharacter();
                     i++;
                     break;
                 case "[":
                     original = regEx.substring(i,regEx.indexOf("]", i));
-                    result.add(stringGenerator.generateRandomCharacterFromASet(original));
+                    regExGenerator = new GenerateRandomCharacterFromASet();
                     i=regEx.indexOf("]", i)+1;
                     break;
                 case "?":
                     original = regEx.substring(i-1, i);
-                    result.add(stringGenerator.generateZeroOrOneCharacter(original));
+                    regExGenerator = new GenerateZeroOrOneCharacter();
                     i++;
                     break;
                 case "*":
                     original = regEx.substring(i-1, i);
-                    result.add(stringGenerator.generateZeroOrManyCharacters(original));
+                    regExGenerator = new GenerateZeroOrManyCharacters();
                     i++;
                     break;
                 case "+":
                     original = regEx.substring(i-1, i);
-                    result.add(stringGenerator.generateOneOrManyCharacters(original));
+                    regExGenerator = new GenerateOneOrManyCharacters();
                     i++;
                     break;
                 case "\\":
                     original = regEx.substring(i, i+1);
-                    result.add(stringGenerator.generateLiteralCharacter(original));
+                    regExGenerator = new GenerateLiteralCharacter();
                     i++;
                     break;
                 default:
@@ -54,16 +57,17 @@ public class RegExAnalizer {
                         String nextChar = new StringBuilder().append(regEx.charAt(i+1)).toString();
                         if (!nextChar.equals("?") && !nextChar.equals("*") && !nextChar.equals("+")){
                             original = regEx.substring(i, i+2);
-                            result.add(stringGenerator.generateLiteralCharacter(original));
                         }
                     }else{
                         original = regEx.substring(i);
-                        result.add(stringGenerator.generateLiteralCharacter(original));
                     }
+                    regExGenerator = new GenerateLiteralCharacter();
                     i++;
                     break;
             }
+            result.add(regExGenerator.generateRegEx(original));
         }
         return result;
     }
+
 }
