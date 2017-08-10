@@ -2,6 +2,7 @@ package ar.fiuba.tdd.template.tp0;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class RegExGenerator {
     // TODO: Uncomment this field
@@ -12,13 +13,15 @@ public class RegExGenerator {
     //}
 
     // TODO: Uncomment parameters
-    public List<String> generate(/*String regEx, int numberOfResults*/) {
-        return new ArrayList<String>() {
-            {
-                add("a");
-                add("b");
-                add("c");
-            }
-        };
+    public List<String> generate(String regEx, int numberOfResults) {
+        List<String> result = new ArrayList<String>();
+        RegExAnalizer regExAnalizer = new RegExAnalizer();
+        while (numberOfResults>0){
+            regExAnalizer.analize(regEx);
+            numberOfResults--;
+        }
+        return result;
     }
+
+
 }
