@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Created by lagi on 8/10/17.
  */
-public class GenerateRandomCharacter implements RegExGeneratorStrategy{
+public class RandomCharacterGenerator implements RegExGeneratorStrategy{
     @Override
     public String generateRegEx(String original) {
         Random rand = new Random();
